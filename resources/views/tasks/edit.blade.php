@@ -1,12 +1,16 @@
-
-<h1>Edit BLog</h1>
+<h1>Edit Blog</h1>
 
 <form action="{{ route('tasks.update', $task) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
     <div class="form-group">
         <label for="title">Name</label>
-        <input type="text" name="title" id="title" class="form-control" value="{{ $task->title }}" required>
+        <input type="text" name="title" id="title" class="form-control @error('title') is-invalid @enderror" value="{{ old('title') }}"required>
+        @error('title')
+        <span class="invalid-feedback" role="alert">
+            <strong>{{ $message }}</strong>
+        </span>
+    @enderror
     </div>
     <div class="form-group">
         <label for="description">Description</label>

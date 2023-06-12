@@ -24,11 +24,11 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'title' => ['required', 'regex:/^[a-zA-Z]+$/'],
+            'title' => ['required', 'regex:/^(?![0-9]*$)[a-zA-Z0-9\s]+$/'],
             'description' => 'required',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ], [
-            'title.regex' => 'The name field should only contain letters.',
+            'title.regex' => 'The name field should contain letters.',
         ]);
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('public/images');
@@ -50,13 +50,12 @@ class TaskController extends Controller
     public function update(Request $request, Task $task)
     {
         $data = $request->validate([
-            'title' => ['required', 'regex:/^[a-zA-Z]+$/'],
+            'title' => ['required', 'regex:/^(?![0-9]*$)[a-zA-Z0-9\s]+$/'],
             'description' => 'required',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ], [
-            'title.regex' => 'The name field should only contain letters.',
+            'title.regex' => 'The name field should contain letters.',
         ]);
-
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('public/images');
             $data['image'] = basename($imagePath);
